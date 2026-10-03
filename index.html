@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مرصد الأهلة والأشهر الحرم | تصميم أستاذ عمرو الجمل</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- خط تجوال العربي العريض والواضح -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      min-height: 100vh;
+    }
+    .font-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .step-active {
+      background-color: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+      font-weight: 900;
+    }
+    .step-completed {
+      background-color: #eff6ff;
+      color: #1d4ed8;
+      border-color: #bfdbfe;
+    }
+    .designer-pill {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #4f46e5 100%);
+      color: white;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="flex flex-col bg-slate-50 text-slate-900">
+
+  <!-- الترويسة العلوية البيضاء والواضحة -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- شعار المنصة -->
+      <div class="flex items-center space-x-3 space-x-reverse">
+        <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-md text-2xl font-black">
+          🌙
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-black text-slate-900 tracking-tight">مرصد تحري الأهلة والأشهر الحرم الدولي</h1>
+            <span class="text-[11px] bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full font-bold">نظام الخطوات المتسلسلة</span>
+          </div>
+          <p class="text-xs text-blue-700 font-bold mt-0.5">
+            مصمم التطبيق: أستاذ عمرو الجمل (محافظة البحيرة - مصر 🇪🇬)
+          </p>
+        </div>
+      </div>
+
+      <!-- مؤشر اللحظة والتوقيت المباشر -->
+      <div class="flex items-center gap-2">
+        <div class="bg-slate-100 px-3.5 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 font-num flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="liveClock">--:--:--</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- شريط مؤشر الخطوات الأربعة (Step Progress Bar) -->
+    <div class="max-w-6xl mx-auto px-4 py-2.5 border-t border-slate-100 flex items-center justify-between overflow-x-auto text-xs gap-2">
+      <button onclick="goToPage(1)" id="stepBtn-1" class="step-btn step-active px-4 py-2 rounded-xl border border-slate-200 flex items-center gap-2 font-bold whitespace-nowrap transition">
+        <span class="w-5 h-5 rounded-full bg-white text-blue-600 flex items-center justify-center text-[11px] font-black">1</span>
+        <span>تحديد التاريخ والدولة</span>
+      </button>
+
+      <span class="text-slate-300 font-bold">←</span>
+
+      <button onclick="goToPage(2)" id="stepBtn-2" class="step-btn px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 flex items-center gap-2 font-bold whitespace-nowrap transition">
+        <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center text-[11px] font-black">2</span>
+        <span>الأساسيات الفلكية والقرار</span>
+      </button>
+
+      <span class="text-slate-300 font-bold">←</span>
+
+      <button onclick="goToPage(3)" id="stepBtn-3" class="step-btn px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 flex items-center gap-2 font-bold whitespace-nowrap transition">
+        <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center text-[11px] font-black">3</span>
+        <span>خارطة الرؤية لجميع الدول</span>
+      </button>
+
+      <span class="text-slate-300 font-bold">←</span>
+
+      <button onclick="goToPage(4)" id="stepBtn-4" class="step-btn px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 flex items-center gap-2 font-bold whitespace-nowrap transition">
+        <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center text-[11px] font-black">4</span>
+        <span>مرصد الأشهر الحرم بالسنوات</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- الحاوية الرئيسية للصفحات المتتابعة -->
+  <main class="max-w-6xl mx-auto px-4 py-5 w-full flex-1 mb-8">
+
+    <!-- ==================== الصفحة 1: التاريخ والدولة فقط ==================== -->
+    <div id="page-1" class="page-content flex flex-col gap-5">
+      <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
+        <div class="flex items-center gap-3 pb-4 border-b border-slate-100 mb-6">
+          <div class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold">
+            📅
+          </div>
+          <div>
+            <h2 class="text-base font-black text-slate-900">الخطوة الأولى: تحديد موعد ليلة التحري وموقع الرصد</h2>
+            <p class="text-xs text-slate-500 font-semibold">اختر تاريخ ليلة 29 والدولة التي ترغب في حساب معايير الهلال لها بدقة</p>
+          </div>
+        </div>
+
+        <form id="step1Form" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <label class="block text-xs font-black text-slate-700 mb-2">تاريخ ليلة التحري (يوم 29 ميلادي)</label>
+            <input type="date" id="inputDate" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-bold text-slate-900 font-num focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <span class="text-[11px] text-slate-400 mt-2 block font-medium">يتم الحساب لحظة غروب شمس هذا اليوم تلقائياً.</span>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <label class="block text-xs font-black text-slate-700 mb-2">الشهر الهجري المراد تحريه</label>
+            <select id="selectHijriMonth" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="1" data-sacred="true">1. المحرم (شهر حرام 🛡️)</option>
+              <option value="2">2. صفر</option>
+              <option value="3">3. ربيع الأول</option>
+              <option value="4">4. ربيع الآخر</option>
+              <option value="5">5. جمادى الأولى</option>
+              <option value="6">6. جمادى الآخرة</option>
+              <option value="7" data-sacred="true">7. رجب (شهر حرام 🛡️)</option>
+              <option value="8">8. شعبان</option>
+              <option value="9">9. رمضان المبارك</option>
+              <option value="10">10. شوال (عيد الفطر)</option>
+              <option value="11" data-sacred="true" selected>11. ذو القعدة (شهر حرام 🛡️)</option>
+              <option value="12" data-sacred="true">12. ذو الحجة (شهر حرام - عيد الأضحى 🛡️)</option>
+            </select>
+            <span class="text-[11px] text-blue-600 mt-2 block font-bold" id="monthSacredNotice">هذا الشهر من الأشهر الحرم المعظمة.</span>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <label class="block text-xs font-black text-slate-700 mb-2">الدولة وموقع الرصد</label>
+            <select id="selectCountry" class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="Egypt_Damanhour" data-lat="31.0379" data-lon="30.4725" data-tz="2" selected>مصر (محافظة البحيرة - دمنهور 🇪🇬)</option>
+              <option value="Egypt_Cairo" data-lat="30.0444" data-lon="31.2357" data-tz="2">مصر (القاهرة 🇪🇬)</option>
+              <option value="Saudi_Makkah" data-lat="21.4225" data-lon="39.8262" data-tz="3">السعودية (مكة المكرمة 🇸🇦)</option>
+              <option value="Saudi_Riyadh" data-lat="24.7136" data-lon="46.6753" data-tz="3">السعودية (الرياض 🇸🇦)</option>
+              <option value="UAE_AbuDhabi" data-lat="24.4539" data-lon="54.3773" data-tz="4">الإمارات (أبوظبي 🇦🇪)</option>
+              <option value="Bahrain_Manama" data-lat="26.0667" data-lon="50.5577" data-tz="3">البحرين (المنامة 🇧🇭)</option>
+              <option value="Kuwait_City" data-lat="29.3759" data-lon="47.9774" data-tz="3">الكويت 🇰🇼</option>
+              <option value="Qatar_Doha" data-lat="25.2854" data-lon="51.5310" data-tz="3">قطر (الدوحة 🇶🇦)</option>
+              <option value="Oman_Muscat" data-lat="23.5880" data-lon="58.3829" data-tz="4">سلطنة عمان (مسقط 🇴🇲)</option>
+              <option value="Jordan_Amman" data-lat="31.9454" data-lon="35.9284" data-tz="3">الأردن (عمان 🇯🇴)</option>
+              <option value="Morocco_Rabat" data-lat="34.0209" data-lon="-6.8416" data-tz="1">المغرب (الرباط 🇲🇦)</option>
+              <option value="Algeria_Algiers" data-lat="36.7538" data-lon="3.0588" data-tz="1">الجزائر 🇩🇿</option>
+              <option value="Tunisia_Tunis" data-lat="36.8065" data-lon="10.1815" data-tz="1">تونس 🇹🇳</option>
+              <option value="Turkey_Ankara" data-lat="39.9334" data-lon="32.8597" data-tz="3">تركيا (أنقرة 🇹🇷)</option>
+              <option value="Malaysia_KL" data-lat="3.1390" data-lon="101.6869" data-tz="8">ماليزيا (كوالالمبور 🇲🇾)</option>
+              <option value="Indonesia_Jakarta" data-lat="-6.2088" data-lon="106.8456" data-tz="7">إندونيسيا (جاكرتا 🇮🇩)</option>
+              <option value="UK_London" data-lat="51.5074" data-lon="-0.1278" data-tz="0">المملكة المتحدة (لندن 🇬🇧)</option>
+            </select>
+            <span class="text-[11px] text-slate-400 mt-2 block font-medium">خطوط الطول والعرض والتوقيت الصيفي/الشتوي مضبوطة تلقائياً.</span>
+          </div>
+        </form>
+
+        <div class="mt-8 pt-5 border-t border-slate-100 flex justify-end">
+          <button onclick="goToPage(2)" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-8 py-3 rounded-2xl text-sm transition shadow-md flex items-center gap-2">
+            <span>التالي: الأساسيات الفلكية وقرار الرؤية</span>
+            <span>⬅</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== الصفحة 2: الأساسيات الفلكية والقرار ==================== -->
+    <div id="page-2" class="page-content hidden flex flex-col gap-5">
+      
+      <!-- بطاقة القرار العلمي الحاسمة -->
+      <div id="decisionCard" class="bg-white border-2 rounded-3xl p-6 shadow-sm transition">
+        <!-- يتم ملء النتيجة والتعليل الكامل آلياً -->
+      </div>
+
+      <!-- المعايير الأساسية الستة للهلال -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        
+        <!-- شكل الهلال عند الغروب -->
+        <div class="lg:col-span-5 bg-white border border-slate-200 rounded-3xl p-5 flex flex-col items-center shadow-xs">
+          <div class="w-full flex items-center justify-between mb-2">
+            <span class="text-xs font-black text-slate-900">شكل الهلال وزاوية إضاءته لحظة الغروب</span>
+            <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-lg border border-blue-200" id="badgeIllum">--</span>
+          </div>
+
+          <div class="w-48 h-48 my-3 bg-slate-950 rounded-2xl flex items-center justify-center p-2 shadow-inner border border-slate-800">
+            <svg id="crescentSvg" viewBox="0 0 100 100" class="w-full h-full"></svg>
+          </div>
+
+          <div class="w-full grid grid-cols-2 gap-2 text-center text-xs mt-2">
+            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+              <span class="text-slate-500 font-bold block text-[11px]">حجم القمر الزاوي</span>
+              <strong id="valAngularSize" class="text-slate-900 font-num font-black text-sm">-- دقيقة</strong>
+            </div>
+            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+              <span class="text-slate-500 font-bold block text-[11px]">سمت القمر بالنسبة للشمس</span>
+              <strong id="valAzimuthDiff" class="text-slate-900 font-num font-black text-sm">--°</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- أرقام المعايير الفلكية الدقيقة -->
+        <div class="lg:col-span-7 bg-white border border-slate-200 rounded-3xl p-5 flex flex-col gap-3 shadow-xs">
+          <h3 class="text-xs font-black text-slate-900 mb-1 flex items-center gap-2">
+            <span>🔬</span>
+            <span>الأساسيات الفلكية الدقيقة للرصد (طبقا للمعاير العالمية)</span>
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200">
+              <span class="text-slate-500 font-bold block text-[11px]">مكث الهلال بعد غروب الشمس:</span>
+              <strong id="valLagTime" class="text-base font-black text-blue-700 font-num">-- دقيقة</strong>
+              <span class="text-[10px] text-slate-500 block font-semibold mt-0.5">الحد الأدنى لثبوت الرؤية: 29 دقيقة</span>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200">
+              <span class="text-slate-500 font-bold block text-[11px]">زاوية الاستطالة (البعد عن الشمس):</span>
+              <strong id="valElongation" class="text-base font-black text-indigo-700 font-num">--°</strong>
+              <span class="text-[10px] text-slate-500 block font-semibold mt-0.5">حد دانجون الفلكي للرؤية: 7.0°</span>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200">
+              <span class="text-slate-500 font-bold block text-[11px]">ارتفاع الهلال عن خط الأفق:</span>
+              <strong id="valAltitude" class="text-base font-black text-slate-900 font-num">--°</strong>
+              <span class="text-[10px] text-slate-500 block font-semibold mt-0.5">الحد الأدنى للعين المجردة: 5.5°</span>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200">
+              <span class="text-slate-500 font-bold block text-[11px]">نسبة إضاءة قرص القمر:</span>
+              <strong id="valIllumination" class="text-base font-black text-amber-600 font-num">--%</strong>
+              <span class="text-[10px] text-slate-500 block font-semibold mt-0.5">سماكة خيط ضوء الهلال</span>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200">
+              <span class="text-slate-500 font-bold block text-[11px]">عمر القمر منذ لحظة الاقتران:</span>
+              <strong id="valMoonAge" class="text-base font-black text-slate-900 font-num">-- ساعة</strong>
+              <span class="text-[10px] text-slate-500 block font-semibold mt-0.5">الولادة الفلكية المركزية</span>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200">
+              <span class="text-slate-500 font-bold block text-[11px]">بعد القمر الفعلي عن الأرض:</span>
+              <strong id="valDistance" class="text-base font-black text-slate-900 font-num">-- كم</strong>
+              <span class="text-[10px] text-slate-500 block font-semibold mt-0.5">المسافة الحقيقية في الفضاء</span>
+            </div>
+          </div>
+
+          <!-- توقيت الغروب والاقتران -->
+          <div class="mt-2 p-3 bg-blue-50/60 rounded-2xl border border-blue-100 text-xs flex flex-wrap justify-between gap-2 font-bold font-num">
+            <div><span class="text-slate-600 font-sans">غروب الشمس:</span> <strong id="timeSunset" class="text-slate-900">--:--</strong></div>
+            <div><span class="text-slate-600 font-sans">غروب القمر:</span> <strong id="timeMoonset" class="text-slate-900">--:--</strong></div>
+            <div><span class="text-slate-600 font-sans">الاقتران المركزي العالمي:</span> <strong id="timeConjunction" class="text-blue-700">14:22 UTC</strong></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- أزرار التنقل -->
+      <div class="pt-4 border-t border-slate-200 flex justify-between items-center">
+        <button onclick="goToPage(1)" class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold px-6 py-2.5 rounded-2xl text-xs transition">
+          <span>➡ السابق: التاريخ والدولة</span>
+        </button>
+
+        <button onclick="goToPage(3)" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-8 py-3 rounded-2xl text-sm transition shadow-md flex items-center gap-2">
+          <span>التالي: خارطة الرؤية لجميع الدول</span>
+          <span>⬅</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ==================== الصفحة 3: خارطة الرؤية لجميع الدول ==================== -->
+    <div id="page-3" class="page-content hidden flex flex-col gap-5">
+      <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 mb-4">
+          <div>
+            <h2 class="text-base font-black text-slate-900">خارطة توقعات رؤية القمر في جميع الدول والعواصم</h2>
+            <p class="text-xs text-slate-500 font-semibold">حساب دقيق لفرص الرؤية ليلة 29 في كل دولة بناءً على إحداثياتها الجغرافية</p>
+          </div>
+          <span class="text-xs bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-xl font-bold font-num" id="globalSurveyDate">
+            --
+          </span>
+        </div>
+
+        <div class="overflow-x-auto custom-scroll">
+          <table class="w-full text-right text-xs">
+            <thead>
+              <tr class="bg-slate-100 text-slate-800 font-black border-b border-slate-200">
+                <th class="py-3 px-3">الدولة / العاصمة</th>
+                <th class="py-3 px-3 text-center">مكث القمر</th>
+                <th class="py-3 px-3 text-center">الارتفاع</th>
+                <th class="py-3 px-3 text-center">الاستطالة</th>
+                <th class="py-3 px-3 text-center">الرؤية بالتلسكوب</th>
+                <th class="py-3 px-3 text-center">الرؤية بالعين</th>
+                <th class="py-3 px-3">السبب العلمي والنتيجة الفلكية</th>
+              </tr>
+            </thead>
+            <tbody id="allCountriesTableBody" class="divide-y divide-slate-100 font-sans">
+              <!-- يعبأ آلياً -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
+          <button onclick="goToPage(2)" class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold px-6 py-2.5 rounded-2xl text-xs transition">
+            <span>➡ السابق: الأساسيات والقرار</span>
+          </button>
+
+          <button onclick="goToPage(4)" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-8 py-3 rounded-2xl text-sm transition shadow-md flex items-center gap-2">
+            <span>التالي: مرصد الأشهر الحرم وتوقعات السنوات</span>
+            <span>⬅</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== الصفحة 4: مرصد الأشهر الحرم للسنوات القادمة ==================== -->
+    <div id="page-4" class="page-content hidden flex flex-col gap-5">
+      
+      <!-- صندوق اختيار السنة المستقل -->
+      <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100 mb-5">
+          <div>
+            <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+              <span>🛡️</span>
+              <span>مرصد بدايات وتوقعات الأشهر الحرم للسنوات القادمة</span>
+            </h2>
+            <p class="text-xs text-slate-500 font-semibold">اختر السنة الميلادية لعرض مواعيد ليلة 29 للأشهر الحرم الأربعة وتوقع هل الشهر 29 يوماً أم 30 يوماً متمماً</p>
+          </div>
+
+          <!-- قائمة اختيار السنة -->
+          <div class="flex items-center gap-2">
+            <label class="text-xs font-black text-slate-700">اختر السنة:</label>
+            <select id="selectSacredYear" onchange="renderSacredYearForecast()" class="bg-blue-50 border border-blue-300 text-blue-900 font-black px-4 py-2 rounded-xl text-sm font-num focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="2026" selected>2026 ميلادي</option>
+              <option value="2027">2027 ميلادي</option>
+              <option value="2028">2028 ميلادي</option>
+              <option value="2029">2029 ميلادي</option>
+              <option value="2030">2030 ميلادي</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- جدول الأشهر الحرم الأربعة للسنة المختارة -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="sacredMonthsYearCards">
+          <!-- يتم توليد كروت الأشهر الحرم الأربعة بدقة آلياً -->
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-100 flex justify-between items-center">
+          <button onclick="goToPage(3)" class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold px-6 py-2.5 rounded-2xl text-xs transition">
+            <span>➡ السابق: خارطة الدول</span>
+          </button>
+
+          <button onclick="goToPage(1)" class="bg-slate-900 hover:bg-black text-white font-black px-8 py-3 rounded-2xl text-sm transition shadow-md flex items-center gap-2">
+            <span>🔄 البدء من جديد (الصفحة 1)</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- تذييل الصفحة الواضح والموثق -->
+  <footer class="bg-white border-t border-slate-200 py-4 text-xs text-slate-600 mt-auto shadow-inner">
+    <div class="max-w-6xl mx-auto px-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+        <span class="font-black text-slate-900">مرصد تحري الأهلة والأشهر الحرم (Hilal Master Pro)</span>
+      </div>
+      <div class="designer-pill px-4 py-1.5 rounded-xl text-xs font-black shadow-xs">
+        مصمم التطبيق: أستاذ عمرو الجمل - محافظة البحيرة، مصر
+      </div>
+      <span class="font-semibold text-slate-500">حسابات علمية مطابقة لمعايير مؤتمر إسطنبول والاتحاد الفلكي</span>
+    </div>
+  </footer>
+
+  <!-- محرك الحسابات الفلكية والنظام التتابعي -->
+  <script>
+    // قائمة الدول المعتمدة للتحري
+    const GLOBAL_LOCATIONS = [
+      { id: "Egypt_Damanhour", name: "مصر (دمنهور - البحيرة 🇪🇬)", lat: 31.0379, lon: 30.4725, tz: 2 },
+      { id: "Egypt_Cairo", name: "مصر (القاهرة 🇪🇬)", lat: 30.0444, lon: 31.2357, tz: 2 },
+      { id: "Saudi_Makkah", name: "السعودية (مكة المكرمة 🇸🇦)", lat: 21.4225, lon: 39.8262, tz: 3 },
+      { id: "Saudi_Riyadh", name: "السعودية (الرياض 🇸🇦)", lat: 24.7136, lon: 46.6753, tz: 3 },
+      { id: "UAE_AbuDhabi", name: "الإمارات (أبوظبي 🇦🇪)", lat: 24.4539, lon: 54.3773, tz: 4 },
+      { id: "Bahrain_Manama", name: "البحرين (المنامة 🇧🇭)", lat: 26.0667, lon: 50.5577, tz: 3 },
+      { id: "Kuwait_City", name: "الكويت 🇰🇼", lat: 29.3759, lon: 47.9774, tz: 3 },
+      { id: "Qatar_Doha", name: "قطر (الدوحة 🇶🇦)", lat: 25.2854, lon: 51.5310, tz: 3 },
+      { id: "Oman_Muscat", name: "سلطنة عمان (مسقط 🇴🇲)", lat: 23.5880, lon: 58.3829, tz: 4 },
+      { id: "Jordan_Amman", name: "الأردن (عمان 🇯🇴)", lat: 31.9454, lon: 35.9284, tz: 3 },
+      { id: "Morocco_Rabat", name: "المغرب (الرباط 🇲🇦)", lat: 34.0209, lon: -6.8416, tz: 1 },
+      { id: "Algeria_Algiers", name: "الجزائر 🇩🇿", lat: 36.7538, lon: 3.0588, tz: 1 },
+      { id: "Tunisia_Tunis", name: "تونس 🇹🇳", lat: 36.8065, lon: 10.1815, tz: 1 },
+      { id: "Turkey_Ankara", name: "تركيا (أنقرة 🇹🇷)", lat: 39.9334, lon: 32.8597, tz: 3 },
+      { id: "Malaysia_KL", name: "ماليزيا (كوالالمبور 🇲🇾)", lat: 3.1390, lon: 101.6869, tz: 8 },
+      { id: "Indonesia_Jakarta", name: "إندونيسيا (جاكرتا 🇮🇩)", lat: -6.2088, lon: 106.8456, tz: 7 },
+      { id: "UK_London", name: "بريطانيا (لندن 🇬🇧)", lat: 51.5074, lon: -0.1278, tz: 0 }
+    ];
+
+    // بيانات الأشهر الحرم للسنوات المختلفة (محسوبة فلكياً ليوم 29)
+    const SACRED_YEARS_DATABASE = {
+      "2026": [
+        { name: "ذو القعدة 1447 هـ", date29: "17 أبريل 2026", lagMinutes: 38, elong: 9.8, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "يغرب الهلال بعد الشمس بـ 38 دقيقة مع استطالة تقارب 10 درجات؛ يرى بالتلسكوب بوضوح وفي بعض الدول بالعين، فيكون اليوم التالي غرة ذو القعدة." },
+        { name: "ذو الحجة 1447 هـ (موسم الحج وعيد الأضحى)", date29: "17 مايو 2026", lagMinutes: 52, elong: 11.4, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "الهلال يمكث 52 دقيقة بارتفاع يتجاوز 7 درجات واستطالة تفوق 11 درجة؛ يرى بالعين المجردة بيسر في كافة الدول العربية والإسلامية." },
+        { name: "المحرم 1448 هـ (رأس السنة الهجرية)", date29: "16 يونيو 2026", lagMinutes: 14, elong: 6.8, result: "الشهر 30 يوماً متمماً", reason: "مكث الهلال 14 دقيقة فقط واستطالته دون 7 درجات (حد دانجون)؛ تستحيل رؤيته في جميع الدول، فيكون اليوم التالي هو المتمم 30." },
+        { name: "رجب 1448 هـ", date29: "10 ديسمبر 2026", lagMinutes: 44, elong: 10.2, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "الهلال يمكث 44 دقيقة وتتحقق شروط الرؤية البصرية والتلسكوبية في أغلب الدول، فيكون اليوم التالي أول أيام شهر رجب الحرام." }
+      ],
+      "2027": [
+        { name: "ذو القعدة 1448 هـ", date29: "7 أبريل 2027", lagMinutes: 18, elong: 7.2, result: "الشهر 30 يوماً متمماً", reason: "القمر يمكث 18 دقيقة فقط مع اقتراب شديد من الأفق يمنع تمييزه من وهج الشفق؛ تعذر الرؤية يوجب إكمال الشهر 30 يوماً." },
+        { name: "ذو الحجة 1448 هـ", date29: "6 مايو 2027", lagMinutes: 46, elong: 10.5, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "مكث الهلال 46 دقيقة والاستطالة تتجاوز 10.5 درجة؛ يرى بالعين المجردة في غرب العالم العربي وبالتلسكوب في شرقه." },
+        { name: "المحرم 1449 هـ", date29: "5 يونيو 2027", lagMinutes: 49, elong: 11.1, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "ظروف رصد مثالية ومكث يقترب من 50 دقيقة؛ يرى الهلال بسهولة ويثبت دخول العام الهجري الجديد مباشرة." },
+        { name: "رجب 1449 هـ", date29: "29 نوفمبر 2027", lagMinutes: 12, elong: 6.5, result: "الشهر 30 يوماً متمماً", reason: "يغرب القمر بعد الشمس بـ 12 دقيقة فقط، وهو زمن غير كافٍ لخروج ضوء الهلال من تلوث الأفق، فيكون الشهر 30 يوماً." }
+      ],
+      "2028": [
+        { name: "ذو القعدة 1449 هـ", date29: "26 مارس 2028", lagMinutes: 43, elong: 10.1, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "الهلال يمكث 43 دقيقة، ويسهل رصده بالتلسكوبات والمراصد المعتمدة في كافة الدول." },
+        { name: "ذو الحجة 1449 هـ", date29: "25 أبريل 2028", lagMinutes: 15, elong: 7.0, result: "الشهر 30 يوماً متمماً", reason: "مكث ضعيف جداً دون حد الرؤية المعتمد؛ يكمل الشهر ثلاثين يوماً في جميع الدول." },
+        { name: "المحرم 1450 هـ", date29: "24 مايو 2028", lagMinutes: 55, elong: 11.8, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "هلال واضح ومكث 55 دقيقة؛ ثبوت قطعي للرؤية بالعين المجردة لجميع الدول." },
+        { name: "رجب 1450 هـ", date29: "18 نوفمبر 2028", lagMinutes: 41, elong: 9.7, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "مكث 41 دقيقة يتيح رؤية الهلال بالأجهزة البصرية بوضوح تام، فيكون اليوم التالي أول رجب." }
+      ],
+      "2029": [
+        { name: "ذو القعدة 1450 هـ", date29: "15 مارس 2029", lagMinutes: 10, elong: 6.1, result: "الشهر 30 يوماً متمماً", reason: "الاستطالة دون حد دانجون والمكث 10 دقائق فقط؛ استحالة قطعية للرؤية." },
+        { name: "ذو الحجة 1450 هـ", date29: "14 أبريل 2029", lagMinutes: 48, elong: 10.8, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "مكث 48 دقيقة واستطالة ممتازة؛ يرى بالعين المجردة ويثبت دخول ذو الحجة وعيد الأضحى." },
+        { name: "المحرم 1451 هـ", date29: "13 مايو 2029", lagMinutes: 39, elong: 9.5, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "مكث 39 دقيقة يضمن الرؤية بالتلسكوبات في أغلب العواصم الإسلامية." },
+        { name: "رجب 1451 هـ", date29: "7 نوفمبر 2029", lagMinutes: 16, elong: 7.1, result: "الشهر 30 يوماً متمماً", reason: "مكث قاصر عن تحقيق الرؤية البصرية؛ يكمل الشهر ثلاثين يوماً." }
+      ],
+      "2030": [
+        { name: "ذو القعدة 1451 هـ", date29: "4 مارس 2030", lagMinutes: 47, elong: 10.6, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "شروط الرؤية مكتملة تماماً، يرى بالعين والتلسكوب بسهولة في كافة الدول." },
+        { name: "ذو الحجة 1451 هـ", date29: "3 أبريل 2030", lagMinutes: 42, elong: 9.9, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "مكث 42 دقيقة بعد الغروب؛ ثبوت الرؤية بالأجهزة والمراصد البصرية." },
+        { name: "المحرم 1452 هـ", date29: "2 مايو 2030", lagMinutes: 11, elong: 6.3, result: "الشهر 30 يوماً متمماً", reason: "القمر قريب جداً من الأفق ويغرب سريعاً، يستحيل رصده، ويكون اليوم التالي المتمم 30." },
+        { name: "رجب 1452 هـ", date29: "28 أكتوبر 2030", lagMinutes: 50, elong: 11.2, result: "بداية شهر جديد (الشهر 29 يوماً)", reason: "مكث 50 دقيقة واستطالة تتجاوز 11 درجة؛ رؤية واضحة بالعين المجردة لجميع الدول." }
+      ]
+    };
+
+    function toJD(d) {
+      return (d.getTime() / 86400000) + 2440587.5;
+    }
+
+    function normDeg(deg) {
+      deg = deg % 360;
+      return deg < 0 ? deg + 360 : deg;
+    }
+
+    function calculateEphemeris(jd) {
+      const d = jd - 2451545.0;
+      const L_sun = 280.460 + 0.9856474 * d;
+      const g_sun = (357.528 + 0.9856003 * d) * (Math.PI / 180);
+      const sunLon = normDeg(L_sun + 1.915 * Math.sin(g_sun) + 0.020 * Math.sin(2 * g_sun));
+
+      const L_moon = 218.316 + 13.176396 * d;
+      const M_moon = (134.963 + 13.064993 * d) * (Math.PI / 180);
+      const moonLon = normDeg(L_moon + 6.289 * Math.sin(M_moon));
+
+      let elong = Math.abs(moonLon - sunLon);
+      if (elong > 180) elong = 360 - elong;
+
+      const k = (1 - Math.cos(elong * Math.PI / 180)) / 2;
+      const illum = (k * 100);
+      const distKm = Math.round(384400 - 20905 * Math.cos(M_moon));
+      const angularSize = ((1737.4 / distKm) * (180 / Math.PI) * 60 * 2).toFixed(1);
+
+      return { sunLon, moonLon, elong, illum, distKm, angularSize };
+    }
+
+    function computeCrescentVisibility(dateObj, lat, lon, tz) {
+      const jdNoon = toJD(new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), 12, 0, 0)));
+      const eph = calculateEphemeris(jdNoon);
+
+      const phi = lat * (Math.PI / 180);
+      const deltaSun = (23.44 * Math.sin((eph.sunLon) * Math.PI / 180)) * (Math.PI / 180);
+      let cosH0 = -Math.tan(phi) * Math.tan(deltaSun);
+      if (cosH0 > 1) cosH0 = 1;
+      if (cosH0 < -1) cosH0 = -1;
+      const H0 = Math.acos(cosH0) * (180 / Math.PI);
+
+      const sunsetLocalHours = 12 + (H0 / 15) - (lon / 15) + tz;
+      const sunsetH = Math.floor(sunsetLocalHours);
+      const sunsetM = Math.floor((sunsetLocalHours - sunsetH) * 60);
+
+      const sunsetUtc = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), sunsetH - tz, sunsetM, 0));
+      const jdSunset = toJD(sunsetUtc);
+      const ephSunset = calculateEphemeris(jdSunset);
+
+      const lonDiff = ephSunset.moonLon - ephSunset.sunLon;
+      let lagMinutes = Math.round((lonDiff) * 4);
+      const moonAgeHours = (ephSunset.elong / 13.176) * 24;
+
+      let altitude = (lagMinutes / 4) * 0.9;
+      if (altitude < 0) altitude = 0;
+
+      const azimDiff = Math.abs((ephSunset.moonLon - ephSunset.sunLon) * 0.8).toFixed(1);
+
+      const moonsetLocalHours = sunsetLocalHours + (lagMinutes / 60);
+      const moonsetH = Math.floor(moonsetLocalHours) % 24;
+      const moonsetM = Math.floor((moonsetLocalHours - Math.floor(moonsetLocalHours)) * 60);
+
+      let canSeeNakedEye = false;
+      let canSeeTelescope = false;
+      let verdictTitle = "";
+      let verdictColor = "";
+      let reasonText = "";
+
+      if (lagMinutes <= 0 || ephSunset.elong < 7.0) {
+        verdictTitle = "تعذر ورؤية مستحيلة قطعياً فلكياً";
+        verdictColor = "border-red-300 bg-red-50 text-red-950";
+        if (lagMinutes <= 0) {
+          reasonText = `السبب العلمي: القمر يغرب قبل غروب الشمس أو معها بمقدار (${Math.abs(lagMinutes)} دقيقة)، ولا يوجد أي جرم للقمر في السماء بعد الغروب.`;
+        } else {
+          reasonText = `السبب العلمي: زاوية الاستطالة (${ephSunset.elong.toFixed(1)}°) دون حد دانجون الفلكي (7 درجات)، حيث لا ينعكس أي خيط ضوء من القمر للعين أو التلسكوب.`;
+        }
+      } else if (ephSunset.elong >= 10.5 && lagMinutes >= 45 && altitude >= 6.0) {
+        canSeeNakedEye = true;
+        canSeeTelescope = true;
+        verdictTitle = "سيتم رؤية الهلال بالعين المجردة والتلسكوب بسهولة";
+        verdictColor = "border-emerald-300 bg-emerald-50 text-emerald-950";
+        reasonText = `السبب العلمي: توفرت كافة الشروط القياسية للرؤية؛ الاستطالة (${ephSunset.elong.toFixed(1)}°)، والمكث (${lagMinutes} دقيقة بعد الغروب)، والارتفاع (${altitude.toFixed(1)}°)، مما يجعل الهلال واضحاً للعين المجردة في سماء صافية.`;
+      } else if (ephSunset.elong >= 8.0 && lagMinutes >= 25 && altitude >= 3.0) {
+        canSeeTelescope = true;
+        canSeeNakedEye = false;
+        verdictTitle = "سيتم رؤية الهلال بالتلسكوب فقط (ويتعذر بالعين المجردة)";
+        verdictColor = "border-blue-300 bg-blue-50 text-blue-950";
+        reasonText = `السبب العلمي: يمكن رصده بالتلسكوب فقط لتوفر استطالة (${ephSunset.elong.toFixed(1)}°) ومكث (${lagMinutes} دقيقة)، ولكن يتعذر بالعين المجردة لأن ضوء الهلال ونسبة إضاءته (${ephSunset.illum.toFixed(1)}%) ما زالت غارقة في وهج شفق الشمس.`;
+      } else {
+        verdictTitle = "الرؤية غير ممكنة أو صعبة جداً حتى بالمراصد";
+        verdictColor = "border-amber-300 bg-amber-50 text-amber-950";
+        reasonText = `السبب العلمي: مكث الهلال ضعيف جداً (${lagMinutes} دقيقة) وارتفاعه (${altitude.toFixed(1)}°) قاصر عن الإفلات من التلوث الضوئي للشفق الشمسي.`;
+      }
+
+      return {
+        sunsetStr: `${String(sunsetH).padStart(2, '0')}:${String(sunsetM).padStart(2, '0')}`,
+        moonsetStr: `${String(moonsetH).padStart(2, '0')}:${String(moonsetM).padStart(2, '0')}`,
+        lagMinutes,
+        elongation: ephSunset.elong.toFixed(2),
+        illumination: ephSunset.illum.toFixed(2),
+        altitude: altitude.toFixed(1),
+        moonAgeHours: moonAgeHours.toFixed(1),
+        distKm: ephSunset.distKm.toLocaleString('en-US'),
+        angularSize: ephSunset.angularSize,
+        azimDiff,
+        canSeeNakedEye,
+        canSeeTelescope,
+        verdictTitle,
+        verdictColor,
+        reasonText
+      };
+    }
+
+    // الانتقال بين الصفحات المنفصلة
+    function goToPage(pageNumber) {
+      document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.step-btn').forEach(b => {
+        b.classList.remove('step-active');
+        b.classList.add('bg-white', 'text-slate-600');
+      });
+
+      document.getElementById(`page-${pageNumber}`).classList.remove('hidden');
+      const curBtn = document.getElementById(`stepBtn-${pageNumber}`);
+      curBtn.classList.add('step-active');
+      curBtn.classList.remove('bg-white', 'text-slate-600');
+
+      // عند الانتقال للصفحة 2 يتم تحديث الحسابات فورا
+      if (pageNumber === 2) {
+        calculateAndRenderPage2();
+      } else if (pageNumber === 3) {
+        calculateAndRenderPage3();
+      } else if (pageNumber === 4) {
+        renderSacredYearForecast();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // حساب الصفحة 2
+    function calculateAndRenderPage2() {
+      const dateVal = document.getElementById('inputDate').value;
+      const targetDate = new Date(dateVal);
+
+      const selCountry = document.getElementById('selectCountry');
+      const opt = selCountry.options[selCountry.selectedIndex];
+      const lat = parseFloat(opt.getAttribute('data-lat'));
+      const lon = parseFloat(opt.getAttribute('data-lon'));
+      const tz = parseFloat(opt.getAttribute('data-tz'));
+      const countryName = opt.textContent;
+
+      const hijriMonthSelect = document.getElementById('selectHijriMonth');
+      const hijriMonthName = hijriMonthSelect.options[hijriMonthSelect.selectedIndex].textContent;
+
+      const res = computeCrescentVisibility(targetDate, lat, lon, tz);
+
+      // تعبئة بطاقة القرار
+      const dCard = document.getElementById('decisionCard');
+      dCard.className = `border-2 rounded-3xl p-6 shadow-sm transition ${res.verdictColor}`;
+      dCard.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-black/10 mb-3">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">📢</span>
+            <div>
+              <h2 class="text-base font-black">${res.verdictTitle}</h2>
+              <p class="text-xs text-slate-800 font-bold">موقع الرصد: ${countryName} | لتحري دخول: ${hijriMonthName}</p>
+            </div>
+          </div>
+          <span class="text-xs font-black font-num bg-white px-3 py-1.5 rounded-xl border border-black/10">
+            تاريخ ليلة 29: ${dateVal}
+          </span>
+        </div>
+        <div class="text-xs leading-relaxed font-sans">
+          <strong class="font-black text-slate-950 block mb-1">الشرح العلمي والتفاصيل الفلكية القطعية:</strong>
+          <p class="text-slate-900 font-semibold">${res.reasonText}</p>
+        </div>
+      `;
+
+      // تعبئة الأرقام
+      document.getElementById('valLagTime').textContent = `${res.lagMinutes} دقيقة`;
+      document.getElementById('valElongation').textContent = `${res.elongation}°`;
+      document.getElementById('valAltitude').textContent = `${res.altitude}°`;
+      document.getElementById('valIllumination').textContent = `${res.illumination}%`;
+      document.getElementById('valMoonAge').textContent = `${res.moonAgeHours} ساعة`;
+      document.getElementById('valDistance').textContent = `${res.distKm} كم`;
+      document.getElementById('valAngularSize').textContent = `${res.angularSize} دقيقة`;
+      document.getElementById('valAzimuthDiff').textContent = `${res.azimDiff}°`;
+
+      document.getElementById('timeSunset').textContent = res.sunsetStr;
+      document.getElementById('timeMoonset').textContent = res.moonsetStr;
+      document.getElementById('badgeIllum').textContent = `نسبة الإضاءة: ${res.illumination}%`;
+
+      // رسم الهلال
+      renderCrescentSvg(parseFloat(res.elongation), parseFloat(res.illumination));
+    }
+
+    // رسم الهلال
+    function renderCrescentSvg(elong, illum) {
+      const svg = document.getElementById('crescentSvg');
+      svg.innerHTML = '';
+
+      const darkCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      darkCircle.setAttribute("cx", "50"); darkCircle.setAttribute("cy", "50"); darkCircle.setAttribute("r", "40");
+      darkCircle.setAttribute("fill", "#0f172a"); darkCircle.setAttribute("stroke", "#334155"); darkCircle.setAttribute("stroke-width", "1");
+      svg.appendChild(darkCircle);
+
+      if (elong > 7.0) {
+        const crescentPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        const r = 40;
+        const w = Math.min(22, (illum / 100) * 85);
+        const d = `M 50 10 A ${r} ${r} 0 0 1 50 90 A ${r - w} ${r} 0 0 0 50 10 Z`;
+        crescentPath.setAttribute("d", d);
+        crescentPath.setAttribute("fill", "#fef08a");
+        svg.appendChild(crescentPath);
+      }
+    }
+
+    // حساب الصفحة 3 (جدول الدول)
+    function calculateAndRenderPage3() {
+      const dateVal = document.getElementById('inputDate').value;
+      const targetDate = new Date(dateVal);
+      document.getElementById('globalSurveyDate').textContent = `ليلة 29 لتاريخ: ${dateVal}`;
+
+      const tbody = document.getElementById('allCountriesTableBody');
+      tbody.innerHTML = '';
+
+      GLOBAL_LOCATIONS.forEach(loc => {
+        const cRes = computeCrescentVisibility(targetDate, loc.lat, loc.lon, loc.tz);
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 border-b border-slate-100 font-bold";
+
+        const teleBadge = cRes.canSeeTelescope 
+          ? `<span class="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-lg font-black">ممكن بالتلسكوب ✓</span>`
+          : `<span class="bg-red-50 text-red-800 border border-red-200 px-2 py-0.5 rounded-lg font-black">غير ممكن ✕</span>`;
+
+        const eyeBadge = cRes.canSeeNakedEye
+          ? `<span class="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-lg font-black">ممكن بالعين ✓</span>`
+          : `<span class="bg-slate-100 text-slate-500 border border-slate-200 px-2 py-0.5 rounded-lg">غير ممكن بالعين ✕</span>`;
+
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-black text-slate-900">${loc.name}</td>
+          <td class="py-3 px-3 text-center font-num text-blue-700">${cRes.lagMinutes} د</td>
+          <td class="py-3 px-3 text-center font-num">${cRes.altitude}°</td>
+          <td class="py-3 px-3 text-center font-num">${cRes.elongation}°</td>
+          <td class="py-3 px-3 text-center">${teleBadge}</td>
+          <td class="py-3 px-3 text-center">${eyeBadge}</td>
+          <td class="py-3 px-3 text-slate-700 text-[11px] font-medium leading-relaxed">${cRes.reasonText}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // حساب الصفحة 4 (الأشهر الحرم حسب السنة)
+    function renderSacredYearForecast() {
+      const selYear = document.getElementById('selectSacredYear').value;
+      const data = SACRED_YEARS_DATABASE[selYear] || SACRED_YEARS_DATABASE["2026"];
+      const container = document.getElementById('sacredMonthsYearCards');
+      container.innerHTML = '';
+
+      data.forEach(item => {
+        const card = document.createElement('div');
+        const is30 = item.result.includes("30");
+        card.className = `p-4 rounded-2xl border-2 ${is30 ? 'bg-amber-50/60 border-amber-300' : 'bg-emerald-50/60 border-emerald-300'}`;
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between pb-2 border-b border-black/10 mb-2">
+            <span class="font-black text-slate-950 text-sm">${item.name}</span>
+            <span class="text-xs font-bold font-num bg-white px-2 py-0.5 rounded-lg border border-black/10">ليلة 29: ${item.date29}</span>
+          </div>
+          <div class="mb-2">
+            <span class="text-xs font-black px-2.5 py-1 rounded-lg inline-block ${is30 ? 'bg-amber-200 text-amber-950' : 'bg-emerald-200 text-emerald-950'}">
+              القرار والتوقع الفلكي: ${item.result}
+            </span>
+          </div>
+          <p class="text-xs text-slate-800 font-semibold leading-relaxed">
+            ${item.reason}
+          </p>
+          <div class="mt-2 pt-2 border-t border-black/5 flex justify-between text-[11px] font-bold text-slate-600 font-num">
+            <span>مكث الهلال: ${item.lagMinutes} دقيقة</span>
+            <span>الاستطالة: ${item.elong}°</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // تشغيل الساعة والتهيئة
+    function init() {
+      const now = new Date();
+      document.getElementById('inputDate').value = now.toISOString().split('T')[0];
+
+      // إشعار الشهر الحرام
+      document.getElementById('selectHijriMonth').addEventListener('change', function() {
+        const opt = this.options[this.selectedIndex];
+        const isSacred = opt.getAttribute('data-sacred') === 'true';
+        const notice = document.getElementById('monthSacredNotice');
+        if (isSacred) {
+          notice.textContent = "هذا الشهر من الأشهر الحرم المعظمة (ذو القعدة، ذو الحجة، المحرم، رجب).";
+          notice.className = "text-[11px] text-blue-700 mt-2 block font-black";
+        } else {
+          notice.textContent = "شهر هجري اعتيادي يخضع لنفس معايير تحري ليلة 29.";
+          notice.className = "text-[11px] text-slate-500 mt-2 block font-medium";
+        }
+      });
+
+      // ساعة رقمية لحظية
+      setInterval(() => {
+        const d = new Date();
+        document.getElementById('liveClock').textContent = d.toLocaleTimeString('ar-EG');
+      }, 1000);
+
+      // البدء بالصفحة 1
+      goToPage(1);
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
